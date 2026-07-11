@@ -16,7 +16,7 @@ public class Product {
     private int id;
 
     @Column(name = "product_name", nullable = false)
-    private String name;
+    private String productName;
 
     @Column(nullable = false)
     private BigDecimal price;
