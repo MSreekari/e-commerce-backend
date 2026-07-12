@@ -94,8 +94,8 @@ public class ProductService {
     }
 
     // search product
-    public List<ProductResponse> searchProduct(String keyword) {
-        List<Product> products = productRepository.findByProductNameContainingIgnoreCaseOrCategoryContainingIgnoreCase(keyword);
+    public List<ProductResponse> searchProduct(String name, String category) {
+        List<Product> products = productRepository.findByProductNameContainingIgnoreCaseOrCategoryContainingIgnoreCase(name,category);
         return products.stream().map(this::mapToResponse).toList();
     }
 

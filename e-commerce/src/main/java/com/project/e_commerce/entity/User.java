@@ -14,16 +14,14 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(nullable = false)
     private String username;
 
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(name = "password_hash", nullable = false, unique = true)
+    @Column(name = "password_hash", nullable = false)
     private String password;
 
-    @Column(nullable = false)
     private String role;
 
     private LocalDateTime createdAt;

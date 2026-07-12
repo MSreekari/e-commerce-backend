@@ -61,9 +61,9 @@ public class ProductController {
         return ResponseEntity.ok(productResponse);
     }
 
-    @GetMapping("search")
-    public ResponseEntity<List<ProductResponse>> searchProduct(@RequestParam String keyword) {
-        List<ProductResponse> productResponse = productService.searchProduct(keyword);
+    @GetMapping("/search/{keyword}")
+    public ResponseEntity<List<ProductResponse>> searchProduct(@PathVariable String name, @PathVariable String category, @PathVariable String keyword) {
+        List<ProductResponse> productResponse = productService.searchProduct(name, category);
         return ResponseEntity.ok(productResponse);
     }
 }
