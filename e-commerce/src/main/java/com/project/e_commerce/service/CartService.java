@@ -86,27 +86,23 @@ public class CartService {
 
     // get all items in a cart
     public CartResponse getAllItemsInCart(int userId) {
-
         List<CartItem> items = cartItemRepository.findByCart_User_Id(userId);
-
         List<CartItemResponse> responses = items.stream()
                 .map(this::mapToResponse)
                 .toList();
-
         BigDecimal total = responses.stream()
                 .map(CartItemResponse::getTotalPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
-
         CartResponse res = new CartResponse();
         res.setItems(responses);
         res.setTotalAmount(total);
-
         return res;
     }
 
     // get a cart item
-    public CartItemResponse getCartItemById(int cartItemId) {
-        CartItem item = cartItemRepository.findById(cartItemId)
+    public CartItemResponse getCartItemById(int userId, int cartItemId) {
+        System.out.println("Executing secure method. Received userId: " + userId + ", cartItemId: " + cartItemId);
+        CartItem item = cartItemRepository.findByIdAndCart_User_Id(cartItemId, userId)
                 .orElseThrow(() -> new RuntimeException("Cart item not found"));
 
         return mapToResponse(item);

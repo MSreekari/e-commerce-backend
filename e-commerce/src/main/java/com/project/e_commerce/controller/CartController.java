@@ -18,9 +18,9 @@ public class CartController {
         this.cartService = cartService;
     }
 
-    @PostMapping
-    public ResponseEntity<CartItemResponse> addCartItem(@RequestBody AddToCartRequest cartItemRequest){
-        CartItemResponse cartItemResponse = cartService.addToCart(cartItemRequest);
+    @PostMapping("/{userId}")
+    public ResponseEntity<CartItemResponse> addCartItem(@PathVariable int userId, @RequestBody AddToCartRequest cartItemRequest){
+        CartItemResponse cartItemResponse = cartService.addToCart(userId, cartItemRequest);
         return ResponseEntity.ok(cartItemResponse);
     }
 
@@ -37,8 +37,8 @@ public class CartController {
     }
 
     @GetMapping("/item/{cartId}")
-    public ResponseEntity<CartItemResponse> getCartItemById(@PathVariable int cartId){
-        CartItemResponse cartItemResponse = cartService.getCartItemById(cartId);
+    public ResponseEntity<CartItemResponse> getCartItemById(@RequestParam int userId, @PathVariable int cartId){
+        CartItemResponse cartItemResponse = cartService.getCartItemById(userId, cartId);
         return ResponseEntity.ok(cartItemResponse);
     }
 
