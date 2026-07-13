@@ -3,9 +3,12 @@ package com.project.e_commerce.service;
 import com.project.e_commerce.dto.product.ProductRequest;
 import com.project.e_commerce.dto.product.ProductResponse;
 import com.project.e_commerce.entity.Product;
+import com.project.e_commerce.repository.CartItemRepository;
+import com.project.e_commerce.repository.CartRepository;
 import com.project.e_commerce.repository.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -15,9 +18,13 @@ import java.util.stream.Collectors;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final CartItemRepository cartItemRepository;
+    private final CartRepository cartRepository;
 
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository, CartItemRepository cartItemRepository, CartRepository cartRepository) {
         this.productRepository = productRepository;
+        this.cartItemRepository = cartItemRepository;
+        this.cartRepository = cartRepository;
     }
 
     private Product mapToEntity(ProductRequest req) {
@@ -74,10 +81,13 @@ public class ProductService {
     }
 
     // delete a product
+    @Transactional
     public void deleteProduct(int id) {
         if(!productRepository.existsById(id)) {
             throw new EntityNotFoundException("Product with id: " + id + " not found");
         }
+        cartItemRepository.deleteByProductId(id);
+        productRepository.flush();
         productRepository.deleteById(id);
     }
 

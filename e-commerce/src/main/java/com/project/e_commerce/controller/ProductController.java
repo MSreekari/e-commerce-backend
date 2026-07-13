@@ -3,9 +3,11 @@ package com.project.e_commerce.controller;
 import com.project.e_commerce.dto.product.ProductRequest;
 import com.project.e_commerce.dto.product.ProductResponse;
 import com.project.e_commerce.entity.Product;
+import com.project.e_commerce.repository.CartItemRepository;
 import com.project.e_commerce.service.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,9 +16,11 @@ import java.util.List;
 @RequestMapping("/api/products")
 public class ProductController {
     private final ProductService  productService;
+    private final CartItemRepository cartItemRepository;
 
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService, CartItemRepository cartItemRepository) {
         this.productService = productService;
+        this.cartItemRepository = cartItemRepository;
     }
 
     @PostMapping
@@ -44,6 +48,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
+    @Transactional
     public ResponseEntity<Void> deleteProduct(@PathVariable int id) {
         productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
@@ -55,13 +60,13 @@ public class ProductController {
         return ResponseEntity.ok(productResponse);
     }
 
-    @GetMapping("/name/{name}")
-    public ResponseEntity<List<ProductResponse>> findByProductName(@PathVariable String name) {
+    @GetMapping("/name")
+    public ResponseEntity<List<ProductResponse>> findByProductName(@RequestParam String name) {
         List<ProductResponse> productResponse = productService.findProductByName(name);
         return ResponseEntity.ok(productResponse);
     }
 
-    @GetMapping("/search}")
+    @GetMapping("/search")
     public ResponseEntity<List<ProductResponse>> searchProduct(@RequestParam String name, @RequestParam String category) {
         List<ProductResponse> productResponse = productService.searchProduct(name, category);
         return ResponseEntity.ok(productResponse);
