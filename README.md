@@ -1,6 +1,5 @@
 # E-Commerce Backend System
 
-## Overview
 This is a backend application built using Spring Boot that provides RESTful APIs for managing products, cart, and order workflows. The system is designed to simulate real-world e-commerce functionality with user-specific operations and clean architecture.
 
 ## Tech Stack
