@@ -20,6 +20,8 @@ This is a backend application built using Spring Boot that provides RESTful APIs
 
 ## Application Flow
 
+![Flow-Diagram](images/flow-diagram.png)
+
 1. User adds products to the cart  
 2. Cart stores items specific to each user  
 3. On placing an order:
@@ -29,6 +31,9 @@ This is a backend application built using Spring Boot that provides RESTful APIs
    - Cart is cleared  
 
 ## Architecture
+
+![Architecture-Diagram](images/architecture-diagram.png)
+
 The project follows a layered architecture:
 
 - **Controller Layer** → Handles API requests  
